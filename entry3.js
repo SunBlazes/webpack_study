@@ -1,0 +1,1 @@
+import (/* webpackChunkName:'async' */'./async').then(res => console.log(res))
