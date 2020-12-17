@@ -1,23 +1,27 @@
 const path = require('path')
+const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const CompressionWebpackPlugin = require('compression-webpack-plugin')
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
 const isProduction = process.env.NODE_ENV === 'production'
 
 module.exports = {
+  mode: 'production',
   entry: './main.js',
-  mode: 'development',
   output: {
     filename: './static/js/[name].[chunkhash:8].chunk.js',
     path: path.resolve(__dirname, 'dist')
   },
   plugins: [
+    new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, './public/index.html'),
     }),
     new MiniCssExtractPlugin({
       filename: './static/css/[name].[contenthash:8].content.css'
     }),
+    // new BundleAnalyzerPlugin(),
     new CompressionWebpackPlugin({
       filename: '[path].gz[query]',
       algorithm: 'gzip',
@@ -26,9 +30,6 @@ module.exports = {
       minRatio: 0.8
     })
   ],
-  devServer: {
-    port: 8000
-  },
   module: {
     rules: [
       {
@@ -65,6 +66,22 @@ module.exports = {
           }
         ]
       }
-    ],
+    ]
+  },
+  optimization: {
+    splitChunks: {
+      chunks: 'all',
+      cacheGroups: {
+        vendor: {
+          test: /[\\/]node_modules[\\/]/,
+          name(module) {
+            // name is like D:\projects\extract-css\node_modules\_jquery@3.5.1@jquery\dist
+            const reg = /[\\/]node_modules[\\/](.*)?[\\/]/
+            const packageName = module.context.match(reg)[1]
+            return `npm.${packageName.replace(/@/g,'')}`
+          }
+        }
+      }
+    }
   }
 }
