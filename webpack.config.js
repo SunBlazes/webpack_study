@@ -4,6 +4,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 module.exports = {
   entry: './main.js',
   mode: 'development',
+  devtool: 'cheap-module-eval-source-map',
   output: {
     filename: './static/js/[name].[chunkhash:8].chunk.js',
     path: path.resolve(__dirname, 'dist')
@@ -53,5 +54,11 @@ module.exports = {
         ]
       }
     ],
+  },
+  resolve: {
+    alias: {
+      '@': path.resolve(__dirname, 'src')
+    },
+    extensions: ['.js', '.css', '.scss', '.vue']
   }
 }

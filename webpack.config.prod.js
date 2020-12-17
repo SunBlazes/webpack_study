@@ -9,6 +9,7 @@ const isProduction = process.env.NODE_ENV === 'production'
 module.exports = {
   mode: 'production',
   entry: './main.js',
+  devtool: false,
   output: {
     filename: './static/js/[name].[chunkhash:8].chunk.js',
     path: path.resolve(__dirname, 'dist')
