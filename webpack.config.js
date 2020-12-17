@@ -20,7 +20,7 @@ module.exports = {
     new MiniCssExtractPlugin({
       filename: './static/css/[name].[contenthash:8].content.css'
     }),
-    new BundleAnalyzerPlugin(),
+    // new BundleAnalyzerPlugin(),
     new CompressionWebpackPlugin({
       filename: '[path].gz[query]',
       algorithm: 'gzip',
@@ -39,9 +39,6 @@ module.exports = {
         exclude: /(node_modules)/,
         use: {
           loader: 'babel-loader',
-          options: {
-            presets: ['@babel/preset-env']
-          }
         },
       },
       {
