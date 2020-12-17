@@ -42,7 +42,7 @@ module.exports = {
       {
         test: /\.s(c|a)ss$/,
         exclude: /(node_modules)/,
-        use: [isProduction ? MiniCssExtractPlugin.loader : 'style-loader', 'css-loader', 'sass-loader', {
+        use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader', {
           loader: 'style-resources-loader',
           options: {
             patterns: [
